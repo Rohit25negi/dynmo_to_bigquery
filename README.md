@@ -17,3 +17,7 @@ lambda function package(as explained by AWS guidelines).  3) upload the package 
     
     d) Environment variable `TABLE_NAME`, table name in which you want to store you data.
     
+
+
+### Note:
+    This does not support dynamic change in column's datatype as this is not supported by bigquery at the moment and needs manual intervention: https://cloud.google.com/bigquery/docs/managing-table-schemas
