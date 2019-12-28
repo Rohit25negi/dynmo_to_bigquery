@@ -26,6 +26,10 @@ def put_data_to_google_drive(file_obj):
     dataset_ref = client.dataset(dataset_id)
     job_config = bigquery.LoadJobConfig()
     job_config.skip_leading_rows = 1
+    job_config.write_disposition = bigquery.WriteDisposition.WRITE_APPEND
+    job_config.schema_update_options = [
+    bigquery.SchemaUpdateOption.ALLOW_FIELD_ADDITION
+]
     job_config.source_format = bigquery.SourceFormat.CSV
     job_config.autodetect = True
     client.load_table_from_file(file_obj, dataset_ref.table(os.environ['TABLE_NAME'] ), job_config=job_config) 
