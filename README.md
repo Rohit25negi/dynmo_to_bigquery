@@ -20,4 +20,4 @@ lambda function package(as explained by AWS guidelines).  3) upload the package 
 
 
 ### Note:
-    This does not support dynamic change in column's datatype as this is not supported by bigquery at the moment and needs manual intervention: https://cloud.google.com/bigquery/docs/managing-table-schemas
+This does not support dynamic change in column's datatype as this is not supported by bigquery at the moment and needs manual intervention: https://cloud.google.com/bigquery/docs/managing-table-schemas
