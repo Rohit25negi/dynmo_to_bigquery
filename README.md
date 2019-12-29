@@ -1,13 +1,24 @@
 # Dynamodb to Bigquery
 This codebase is designed to be deployed on AWS lambda function for which the triger would be one of the
-dynamodb table. The sole purpose of this codebase is to allow data sync from dynamodb to google bigquery via awc lambda functions. Currently it handles only the INSERT(or create) element triggers from dynamodb but wil evolve to 
-support deletion and updations.
+dynamodb table. The sole purpose of this codebase is to allow data sync from dynamodb to google bigquery via awc lambda functions. ~~Currently it handles only the INSERT(or create) element triggers from dynamodb but wil evolve to 
+support deletion and updations.~~. It is able to sync data for the following action on dynmodb table:
+
+1) INSERT
+
+2) MODIFY
+
+3) REMOVE
 
 
 ## How to use this code base
-1) You will have to do some standard lambda function processes to use this. 1) clone this repo.  2) prepare the 
-lambda function package(as explained by AWS guidelines).  3) upload the package to aws lambda.
-3) This code base requires 4 things to run.
+1) You will have to do some standard lambda function processes to use this. 
+
+    a) clone this repo.  
+    
+    b) prepare the lambda function package(as explained by AWS guidelines). 
+    
+    c) upload the package to aws lambda.
+2) This code base requires 4 things to run.
 
     a) Google credential files. You can download the google credentials file from the google cloud console. You can put this credential file into the lambda function package while preparing it during deploy.
     
@@ -20,4 +31,5 @@ lambda function package(as explained by AWS guidelines).  3) upload the package 
 
 
 ### Note:
-This does not support dynamic change in column's datatype as this is not supported by bigquery at the moment and needs manual intervention: https://cloud.google.com/bigquery/docs/managing-table-schemas
+1. This does not support dynamic change in column's datatype as this is not supported by bigquery at the moment and needs manual intervention: https://cloud.google.com/bigquery/docs/managing-table-schemas
+2. There is limitation on datatypes in Bigquery so most of the dynmodb types are converted to String by Bigquery autoschema detection.
