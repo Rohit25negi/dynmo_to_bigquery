@@ -56,7 +56,7 @@ def handle_insert_event(record):
 
 
 def handle_delete_event(record):
-    qualified_tablename = "{}.{}.{}".format('ipython-notebook-dev-244005',
+    qualified_tablename = "{}.{}.{}".format(os.environ['PROJECT_ID'],
                                             os.environ['DATASET_ID'],
                                             os.environ['TABLE_NAME'])
     query = """
@@ -69,7 +69,7 @@ def handle_delete_event(record):
 
 
 def handle_update_event(record):
-    qualified_tablename = "{}.{}.{}".format('ipython-notebook-dev-244005',
+    qualified_tablename = "{}.{}.{}".format(os.environ['PROJECT_ID'],
                                             os.environ['DATASET_ID'],
                                             os.environ['TABLE_NAME'])
 
