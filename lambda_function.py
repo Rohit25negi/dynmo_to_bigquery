@@ -35,6 +35,17 @@ def put_data_to_google_drive(file_obj):
     client.load_table_from_file(file_obj, dataset_ref.table(os.environ['TABLE_NAME'] ), job_config=job_config) 
 
 
+def prepare_where_cluse(props):
+    where_clause = []
+
+    for prop_key, prop_value in props.items():
+        where_clause.append((prop_key, list(prop_value.values())[0]))
+
+    where_clause = ["CAST({} as STRING) = '{}'".format(clause[0], clause[1]) for clause in where_clause]
+
+    return ' AND '.join(where_clause)
+
+
 def handle_insert_event(record):
     data = get_header_data(record)
     output = io.BytesIO()
@@ -44,17 +55,38 @@ def handle_insert_event(record):
     put_data_to_google_drive(output)
 
 
+def handle_delete_event(record):
+    qualified_tablename = "{}.{}.{}".format('ipython-notebook-dev-244005',
+                                            os.environ['DATASET_ID'],
+                                            os.environ['TABLE_NAME'])
+    query = """
+    DELETE FROM `{tablename}` bigquery_table
+    WHERE {where_clause}
+    """.format(tablename = qualified_tablename, where_clause=prepare_where_cluse(record))
+    client = bigquery.Client()
+    query_job = client.query(query)
+    query_job.result()
+
+
+def handle_update_event(record):
+    qualified_tablename = "{}.{}.{}".format('ipython-notebook-dev-244005',
+                                            os.environ['DATASET_ID'],
+                                            os.environ['TABLE_NAME'])
+
+    handle_delete_event(record['OldImage'])
+    handle_insert_event(record['NewImage'])
+
+
 def lambda_handler(event, context):
-    eventName = event['Records'][0]['eventName']
-    record = event['Records'][0]['dynamodb']['NewImage']
-
-    if eventName == 'INSERT':
-        handle_insert_event(record)
-    elif eventName == 'UPDATE':
-        # TODO
-        pass
-    elif eventName == 'REMOVE':
-        # TODO
-        pass
-
+    try:
+        for record in event['Records']:
+            print(record['eventName'])
+            if record['eventName'] == 'INSERT':
+                handle_insert_event(record['dynamodb']['NewImage'])
+            elif record['eventName'] == 'MODIFY':
+                handle_update_event(record['dynamodb'])
+            elif record['eventName'] == 'REMOVE':
+                handle_delete_event(record['dynamodb']['OldImage'])
+    except Exception as ex:
+        print(ex)
     return 'Successfully processed {} records.'
