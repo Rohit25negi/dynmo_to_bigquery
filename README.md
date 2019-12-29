@@ -31,7 +31,15 @@ support deletion and updations.~~. It is able to sync data for the following act
     d) Environment variable `TABLE_NAME`, table name in which you want to store you data.
     
 
+## Demo Video(Click on following Image):
+
+[![](http://img.youtube.com/vi/jX8u7zFsMHU/0.jpg)](http://www.youtube.com/watch?v=jX8u7zFsMHU "demo")
+
+
 
 ### Note:
 1. This does not support dynamic change in column's datatype as this is not supported by bigquery at the moment and needs manual intervention: https://cloud.google.com/bigquery/docs/managing-table-schemas
 2. There is limitation on datatypes in Bigquery so most of the dynmodb types are converted to String by Bigquery autoschema detection.
+
+
+
