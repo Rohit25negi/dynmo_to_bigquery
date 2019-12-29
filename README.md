@@ -24,7 +24,9 @@ support deletion and updations.~~. It is able to sync data for the following act
     
     b) Environment variable `GOOGLE_APPLICATION_CREDENTIALS` which contains the path to the google credential file.
     
-    c) Environment variable `DATASET_ID`, dataset it on google big query.
+    c) Environment variable `DATASET_ID`, dataset id, on google big query.
+    
+    d) Environment variable `PROJECT_ID`, project id, on google big query.
     
     d) Environment variable `TABLE_NAME`, table name in which you want to store you data.
     
